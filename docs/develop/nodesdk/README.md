@@ -1,29 +1,22 @@
-# SDK 接入指南
+# NodeSDK 接入指南
 
 ## 介绍
 
-`NodeSDK`主要基于基础 API 上进行封装，提供给用户一种简单、高效的使用方式。
-
-整体而言 SDK 包含了以下功能：
-
-- 具有完备的消息通信模块，与服务端保持**⻓连接**。
-- 能发送 **http** 请求，也能作为中转回包给开发者。
-- 能调用基础 **API**。
-
-### SDK 底层架构设计
-
-整个 SDK 分三层设计：`应用层`、`框架层`、`基础层`，具体结构如下图所示：
-
-<img :src="$withBotBase('/images/node-sdk/framework.png')" alt="SDK 底层架构设计">
+`NodeSDK`主要基于[基础 API ](../api/README.md)封装，提供给用户一种简单、高效的使用方式。
 
 整个 SDK 设计与实现基于**两条主线**：
 
-1. NodeSDK 与基础侧的通信模块，属于机器人**被动接受消息**。比如有用户@机器人、新
-   用户加入频道触发的事件等等。
-   <img :src="$withBotBase('/images/node-sdk/api-client.png')" alt="SDK 底层架构设计">
-2. 机器人通过 NodeSDK 调用基础能力，属于机器人**主动触发消息**。比如欢迎语提醒、
-   定时打卡任务触发、查询当前频道成员列表等等。
-   <img :src="$withBotBase('/images/node-sdk/ws-client.png')" alt="SDK 底层架构设计">
+- **主动的事件触发**
+  - 频道操作能力：子频道增删改、身份组增删改、成员增删改等。
+  - 主动消息推送能力。
+- **被动的事件监听**
+  - 通过 `websocket` 监听事件。
+
+### SDK 底层架构设计
+
+SDK 分三层设计：`应用层`、`框架层`、`基础层`，具体结构如下图所示：
+
+<img :src="$withBotBase('/images/node-sdk/framework.png')" alt="SDK 底层架构设计">
 
 ## 安装
 
@@ -40,7 +33,7 @@ npm i @tencent-connect/bot-node-sdk
 如果安装失败，可尝试使用腾讯源
 
 ```sh
-npm i @tencent/bot-node-sdk --registry=https://mirrors.tencent.com/npm/
+npm i @tencent-connect/bot-node-sdk --registry=https://mirrors.tencent.com/npm/
 ```
 
 ### yarn 方式
@@ -55,10 +48,10 @@ yarn add @tencent-connect/bot-node-sdk
 
 ```js
 // ESModule | TypeScript
-// import { creatOpenAPI, createWebsocket } from '@tencent-connect/bot-node-sdk';
+// import { createOpenAPI, createWebsocket } from '@tencent-connect/bot-node-sdk';
 
 // CommonJs
-const { creatOpenAPI, createWebsocket } = require('@tencent-connect/bot-node-sdk');
+const { createOpenAPI, createWebsocket } = require('@tencent-connect/bot-node-sdk');
 
 const testConfig = {
   appID: 'APPID', // 申请机器人时获取到的机器人 BotAppID
@@ -67,7 +60,7 @@ const testConfig = {
 };
 
 // 创建 client
-const client = creatOpenAPI(testConfig);
+const client = createOpenAPI(testConfig);
 
 // 创建 websocket 连接
 const ws = createWebsocket(testConfig);

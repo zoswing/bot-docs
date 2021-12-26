@@ -4,18 +4,13 @@
 
 ## 使用示例
 
-```javascript
-async function demo() {
-  let { data } = await client.channelPermissionsApi.putChannelPermissions(
-    channelId,
-    userId,
-    // updatePermission
-    {
-      remove: '1',
-      add: '0',
-    },
-  );
-}
+```python
+import qqbot
+
+token = qqbot.Token({appid}, {token})
+
+api = qqbot.ChannelPermissionsAPI(token, False)
+channel = api.update_channel_permissions(channel_id, user_id, channel_permissions)
 ```
 
 ::: warning 注意
@@ -27,18 +22,19 @@ async function demo() {
 
 ## 参数说明
 
-| 字段名           | 必填 | 类型                                  | 描述      |
-| ---------------- | ---- | ------------------------------------- | --------- |
-| channelId        | 是   | string                                | 子频道 ID |
-| userId           | 是   | string                                | 用户 ID   |
-| updatePermission | 是   | [UpdatePermission](#updatepermission) | 权限参数  |
+| 字段名             | 必填 | 类型                                      | 描述      |
+| ------------------ | ---- | ----------------------------------------- | --------- |
+| channel_id          | 是   | string                                    | 子频道 ID |
+| user_id             | 是   | string                                    | 用户 ID   |
+| channel_permissions | 是   | [ChannelPermissions](#channelpermissions) | 权限参数  |
 
-### UpdatePermission
+### ChannelPermissions
 
-| 字段名 | 类型   | 描述                                                                |
-| ------ | ------ | ------------------------------------------------------------------- |
-| add    | string | 字符串形式的位图表示赋予用户的权限，参考[Permissions](#permissions) |
-| remove | string | 字符串形式的位图表示删除用户的权限，参考[Permissions](#permissions) |
+| 字段名      | 类型                        | 描述                              |
+| ----------- | --------------------------- | --------------------------------- |
+| channel_id  | string                      | 子频道 ID                         |
+| user_id     | string                      | 用户 ID                           |
+| permissions | [permissions](#permissions) | 用户拥有的子频道权限，是个 string |
 
 ### Permissions
 
@@ -51,14 +47,21 @@ async function demo() {
 | 可查看子频道 | 0x0000000001 (1 << 0) | 目前仅支持`指定成员`可见类型，不支持`身份组`可见类型 |
 | 可管理子频道 | 0x0000000002 (1 << 1) | 创建者、管理员、子频道管理员都具有此权限             |
 
+##### 参数参考
+
+| 字段名 | 类型   | 描述                               |
+| ------ | ------ | ---------------------------------- |
+| add    | string | 字符串形式的位图表示赋予用户的权限 |
+| remove | string | 字符串形式的位图表示删除用户的权限 |
+
 ## 返回说明
 
-返回结果为空。
+返回是否更新成功
 
 ## 返回示例
 
 `data`：
 
-```js
-'';
+```Python
+True
 ```
